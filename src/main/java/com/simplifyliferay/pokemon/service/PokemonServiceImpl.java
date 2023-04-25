@@ -41,6 +41,7 @@ public class PokemonServiceImpl implements PokemonService {
         testingPokemon.setGeneration(1);
         testingPokemon.setHeight(170.20f);
         testingPokemon.setWeight(90.50f);
+        testingPokemon.setImageUrl("https://nexus.traction.one/images/pokemon/pokemon/6.png");
         testingPokemon.setTypes(new String[] { "fire", "flying" });
         testingPokemon.setId(5);
     }

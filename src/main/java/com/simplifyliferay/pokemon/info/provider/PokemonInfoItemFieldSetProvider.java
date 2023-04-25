@@ -19,6 +19,7 @@ public class PokemonInfoItemFieldSetProvider {
                 .infoFieldSetEntry(PokemonInfoItemFields.idInfoField)
                 .infoFieldSetEntry(PokemonInfoItemFields.nameInfoField)
                 .infoFieldSetEntry(PokemonInfoItemFields.descriptionInfoField)
+                .infoFieldSetEntry(PokemonInfoItemFields.imageUrlInfoField)
                 .labelInfoLocalizedValue(InfoLocalizedValue.localize(getClass(), "pokemon"))
                 .name("pokemon")
                 .build();

@@ -13,6 +13,7 @@ public class Pokemon implements ClassedModel {
     private float height;
     private float weight;
     private int generation;
+    private String imageUrl;
     private String[] types;
 
     public long getId() {
@@ -61,6 +62,14 @@ public class Pokemon implements ClassedModel {
 
     public void setGeneration(int generation) {
         this.generation = generation;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public String[] getTypes() {
