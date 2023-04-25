@@ -37,4 +37,11 @@ public class PokemonInfoItemFields {
                     .name("imageUrl")
                     .labelInfoLocalizedValue(InfoLocalizedValue.localize(PokemonInfoItemFields.class, "imageUrl"))
                     .build();
+
+    public static final InfoField<ImageInfoFieldType> imageInfoField =
+            InfoField.builder(Pokemon.class.getName())
+                    .infoFieldType(ImageInfoFieldType.INSTANCE)
+                    .name("image")
+                    .labelInfoLocalizedValue(InfoLocalizedValue.localize(PokemonInfoItemFields.class, "image"))
+                    .build();
 }

@@ -50,6 +50,7 @@ public class PokemonInfoItemFieldValuesProvider implements InfoItemFieldValuesPr
         pokemonFieldValues.add(new InfoFieldValue<>(PokemonInfoItemFields.nameInfoField, pokemon.getName()));
         pokemonFieldValues.add(new InfoFieldValue<>(PokemonInfoItemFields.descriptionInfoField, pokemon.getDescription()));
         pokemonFieldValues.add(new InfoFieldValue<>(PokemonInfoItemFields.imageUrlInfoField, pokemon.getImageUrl()));
+        pokemonFieldValues.add(new InfoFieldValue<>(PokemonInfoItemFields.imageInfoField, pokemon.getImageUrl()));
 
         return pokemonFieldValues;
     }
