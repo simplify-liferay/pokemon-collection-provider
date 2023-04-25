@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.simplifyliferay.pokemon.constants.PokemonInfoProviderConstants;
 import com.simplifyliferay.pokemon.model.Pokemon;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -26,8 +27,21 @@ import java.util.List;
 )
 public class PokemonServiceImpl implements PokemonService {
 
+    private final List<Pokemon> pokemons = new ArrayList<>();
+
     @Override
     public List<Pokemon> fetchAllPokemons() {
+        return pokemons;
+    }
+
+
+    @Override
+    public Pokemon fetchPokemon(long id) {
+        return pokemons.stream().filter(pokemon -> pokemon.getId() == id).findAny().orElse(null);
+    }
+
+    @Activate
+    private void _fetchAllPokemons() {
         ArrayList<Pokemon> pokemons = new ArrayList<>();
 
         try {
@@ -58,12 +72,7 @@ public class PokemonServiceImpl implements PokemonService {
                 _log.debug(e);
         }
 
-        return pokemons;
-    }
-
-    @Override
-    public Pokemon fetchPokemon(long id) {
-        return fetchAllPokemons().stream().filter(pokemon -> pokemon.getId() == id).findAny().orElse(null);
+        this.pokemons.addAll(pokemons);
     }
 
     private Pokemon _toPokemon(JSONObject json) {
@@ -82,18 +91,4 @@ public class PokemonServiceImpl implements PokemonService {
 
     @Reference
     private JSONFactory _jsonFactory;
-
-    static final Pokemon testingPokemon = new Pokemon();
-
-    static {
-        testingPokemon.setDescription("Charizard is a Fire/Flying type Pokémon introduced in Generation 1. It is known " +
-                "as the Flame Pokémon.");
-        testingPokemon.setName("Charizard");
-        testingPokemon.setGeneration(1);
-        testingPokemon.setHeight(170.20f);
-        testingPokemon.setWeight(90.50f);
-        testingPokemon.setImageUrl("https://nexus.traction.one/images/pokemon/pokemon/6.png");
-        testingPokemon.setTypes(new String[] { "fire", "flying" });
-        testingPokemon.setId(5);
-    }
 }
