@@ -1,7 +1,6 @@
 package com.simplifyliferay.pokemon.service;
 
 import com.liferay.portal.kernel.json.JSONArray;
-import com.liferay.portal.kernel.json.JSONFactory;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
@@ -11,7 +10,6 @@ import com.simplifyliferay.pokemon.constants.PokemonInfoProviderConstants;
 import com.simplifyliferay.pokemon.model.Pokemon;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.component.annotations.Reference;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -30,10 +28,14 @@ public class PokemonServiceImpl implements PokemonService {
     private final List<Pokemon> pokemons = new ArrayList<>();
 
     @Override
-    public List<Pokemon> fetchAllPokemons() {
-        return pokemons;
+    public List<Pokemon> fetchPokemons(int start, int end) {
+        return pokemons.subList(start, end);
     }
 
+    @Override
+    public int countPokemons() {
+        return pokemons.size();
+    }
 
     @Override
     public Pokemon fetchPokemon(long id) {
@@ -88,7 +90,4 @@ public class PokemonServiceImpl implements PokemonService {
     }
 
     private  static final Log _log = LogFactoryUtil.getLog(PokemonServiceImpl.class);
-
-    @Reference
-    private JSONFactory _jsonFactory;
 }

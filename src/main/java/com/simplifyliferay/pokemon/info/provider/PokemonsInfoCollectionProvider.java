@@ -3,9 +3,8 @@ package com.simplifyliferay.pokemon.info.provider;
 import com.liferay.info.collection.provider.CollectionQuery;
 import com.liferay.info.collection.provider.InfoCollectionProvider;
 import com.liferay.info.pagination.InfoPage;
+import com.liferay.info.pagination.Pagination;
 import com.liferay.portal.kernel.language.Language;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.simplifyliferay.pokemon.model.Pokemon;
 import com.simplifyliferay.pokemon.service.PokemonService;
 import org.osgi.service.component.annotations.Component;
@@ -21,16 +20,17 @@ import java.util.Locale;
 public class PokemonsInfoCollectionProvider implements InfoCollectionProvider<Pokemon> {
     @Override
     public InfoPage<Pokemon> getCollectionInfoPage(CollectionQuery collectionQuery) {
-        List<Pokemon> pokemons = _pokemonService.fetchAllPokemons();
-        return InfoPage.of(pokemons);
+        Pagination pagination = collectionQuery.getPagination();
+        List<Pokemon> pokemons = _pokemonService.fetchPokemons(pagination.getStart(), pagination.getEnd());
+        int totalCount = _pokemonService.countPokemons();
+
+        return InfoPage.of(pokemons, pagination, totalCount);
     }
 
     @Override
     public String getLabel(Locale locale) {
         return _language.get(locale, "pokemons-collection-provider");
     }
-
-    private static final Log _log = LogFactoryUtil.getLog(PokemonsInfoCollectionProvider.class);
 
     @Reference
     private Language _language;
