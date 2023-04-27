@@ -11,9 +11,11 @@ import com.liferay.info.item.provider.InfoItemFieldValuesProvider;
 import com.liferay.info.localized.InfoLocalizedValue;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.template.info.item.provider.TemplateInfoItemFieldSetProvider;
 import com.simplifyliferay.pokemon.model.Pokemon;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.propertytypes.ServiceRanking;
 
 import java.text.MessageFormat;
@@ -37,10 +39,14 @@ public class PokemonInfoItemFieldValuesProvider implements InfoItemFieldValuesPr
 
     @Override
     public InfoItemFieldValues getInfoItemFieldValues(Pokemon pokemon) {
-        return InfoItemFieldValues.builder()
-                .infoFieldValues(_getPokemonInfoFieldValues(pokemon))
-                .infoItemReference(new InfoItemReference(Pokemon.class.getName(), pokemon.getId()))
-                .build();
+        return InfoItemFieldValues.builder(
+        ).infoFieldValues(
+                _getPokemonInfoFieldValues(pokemon)
+        ).infoFieldValues(
+                _templateInfoItemFieldSetProvider.getInfoFieldValues(Pokemon.class.getName(), pokemon)
+        ).infoItemReference(
+                new InfoItemReference(Pokemon.class.getName(), pokemon.getId())
+        ).build();
     }
 
     private List<InfoFieldValue<Object>> _getPokemonInfoFieldValues(Pokemon pokemon) {
@@ -56,4 +62,7 @@ public class PokemonInfoItemFieldValuesProvider implements InfoItemFieldValuesPr
     }
 
     private static final Log _log = LogFactoryUtil.getLog(PokemonInfoItemFieldValuesProvider.class);
+
+    @Reference
+    private TemplateInfoItemFieldSetProvider _templateInfoItemFieldSetProvider;
 }
