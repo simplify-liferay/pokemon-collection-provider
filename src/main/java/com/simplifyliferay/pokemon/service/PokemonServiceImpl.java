@@ -47,27 +47,18 @@ public class PokemonServiceImpl implements PokemonService {
         ArrayList<Pokemon> pokemons = new ArrayList<>();
 
         try {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(PokemonInfoProviderConstants.POKEMON_EXTERNAL_API_URL))
-                    .method("GET", HttpRequest.BodyPublishers.noBody())
-                    .build();
 
-            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            // TODO fetch pokémons from an API
+            JSONArray allPokemonsJson = JSONFactoryUtil.createJSONArray(PokemonData.ALL_POKEMONS_JSON);
+            for (int i = 0; i < allPokemonsJson.length(); i++) {
+                JSONObject object = allPokemonsJson.getJSONObject(i);
 
-            if (Validator.isNotNull(response.body())) {
-                String json = response.body();
-                JSONArray jsonArray = JSONFactoryUtil.createJSONArray(json);
-
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject object = jsonArray.getJSONObject(i);
-
-                    if (Validator.isNotNull(object))
-                        pokemons.add(_toPokemon(object));
-                }
+                if (Validator.isNotNull(object))
+                    pokemons.add(_toPokemon(object));
             }
 
         } catch (Exception e) {
-            _log.error(MessageFormat.format("error occurred while trying to fetch pokémon service information " +
+            _log.error(MessageFormat.format("error occurred while trying to fetch pokémon information " +
                     ":: error => {0}", e.getMessage()));
 
             if (_log.isDebugEnabled())
